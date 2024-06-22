@@ -187,15 +187,20 @@
   
         // Get all the images in the folder
         listAll(folderRef).then(function(result) {
-          result.items.forEach(function(imageRef) {
-            // Get the download URL for each image
-            getDownloadURL(imageRef).then(function(url) {
-              // Open a new tab and display the image
-              window.open(url, '_blank');
+            if (result.items.length === 0) {
+                // Show alert if no files are found
+                alert('File not uploaded');
+          } else {
+                result.items.forEach(function(imageRef) {
+                    // Get the download URL for each image
+                    getDownloadURL(imageRef).then(function(url) {
+                        // Open the image in the same window/tab
+                        window.location.href = url;
             }).catch(function(error) {
               console.error('Error getting download URL: ', error);
             });
           });
+        }
         }).catch(function(error) {
           console.error('Error listing images: ', error);
         });
